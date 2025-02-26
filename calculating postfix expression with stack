@@ -1,0 +1,61 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<stdio.h>
+#include<string.h>
+#include<ctype.h>
+#define MAX 1000
+int stack[MAX];
+int top = -1;
+
+void push(int x) {
+	if (top < MAX - 1) {
+		top++;
+		stack[top] = x;
+	}
+}
+
+void calculate(char x) {
+	if (top >= 1) {
+		if (x == '+') {
+			stack[top - 1] = stack[top - 1] + stack[top];
+		}
+		if (x == '-') {
+			stack[top - 1] = stack[top - 1] - stack[top];
+		}
+		if (x == '*') {
+			stack[top - 1] = stack[top - 1] * stack[top];
+		}
+		if (x == '/') {
+			stack[top - 1] = stack[top - 1] / stack[top];
+		}
+		top--;
+	}
+}
+
+int main() {
+	char express[100];
+	gets(express);
+
+	int len = strlen(express);
+
+	for (int i = 0; i < len; i++) {
+		if (express[i] != ' ') {
+			if (isdigit(express[i])&&isdigit(express[i+1])&&!isdigit(express[i+2])) {
+				int value = (express[i] - '0') * 10 + express[i+1] - '0';
+				push(value);
+				i++;
+			} else if (isdigit(express[i])&&!isdigit(express[i+1])) {
+				int value = express[i] - '0';
+				push(value);
+			}
+			else {
+				calculate(express[i]);
+			}
+		}
+	}
+
+	printf("%d", stack[0]);
+
+
+	return 0;
+}
+
