@@ -3,14 +3,28 @@ using namespace std;
 
 class rsp {
 private:
-	int randomNum = rand() % 3;
+	int randomNum;
+	string x;
 
 public:
-	void rock_scissors_paper(string x) {
-		string what;
+	rsp() : randomNum(rand() % 3) {
+		cout << "Rock, Scissors, Paper!: ";
+	}
+
+	void atk() {
+		cin >> x;
+	}
+
+	int quit() {
+		if (x == "quit")return 1;
+		return 0;
+	}
+
+	void rock_scissors_paper() {
+		string computer;
 		if (this->randomNum == 0) {
-			what = "rock";
-			cout << what << endl;
+			computer = "rock";
+			cout << computer << endl;
 			if (x == "Rock" || x == "rock") {
 				cout << "Draw!" << endl;
 			}
@@ -22,8 +36,8 @@ public:
 			}
 		}
 		if (this->randomNum == 1) {
-			what = "scissors";
-			cout << what << endl;
+			computer = "scissors";
+			cout << computer << endl;
 			if (x == "Rock" || x == "rock") {
 				cout << "You win...." << endl;
 			}
@@ -35,8 +49,8 @@ public:
 			}
 		}
 		if (this->randomNum == 2) {
-			what = "paper";
-			cout << what << endl;
+			computer = "paper";
+			cout << computer << endl;
 			if (x == "Rock" || x == "rock") {
 				cout << "You loser!! haha!!" << endl;
 			}
@@ -48,6 +62,9 @@ public:
 			}
 		}
 	}
+	~rsp() {
+		randomNum = 0;
+	}
 };
 
 int main()
@@ -55,13 +72,11 @@ int main()
 	while (1) {
 		rsp rsp1;
 
-		cout << "Rock, Scissors, Paper!: ";
+		rsp1.atk();
 
-		string what1;
-		cin >> what1;
-		if (what1 == "quit")return 0;
+		if (rsp1.quit())return 0;
 
-		rsp1.rock_scissors_paper(what1);
+		rsp1.rock_scissors_paper();
 	}
 	return 0;
 }
