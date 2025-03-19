@@ -1,95 +1,94 @@
 #include<iostream>
+
 using namespace std;
 
-class circle_Q {
-private:
-	typedef struct node {
-		int data;
-		struct node* next;
-		struct node* prev;
-	};
 
-	node* head;
-	node* tail;
+class circular_queue{
+private:
+    class node{
+        public:
+            int data;
+            node*next;
+            node*prev;
+        
+            node():next(NULL),prev(NULL){}
+        
+    };
+    node*head;
+    node*tail;
 
 public:
-	circle_Q():head(NULL),tail(NULL){}
+    circular_queue():head(NULL),tail(NULL){}
 
-	void create_node(int x) {
-		node* newnode = new node;
-		newnode->data = x;
-		newnode->next = NULL;
-		newnode->prev = NULL;
+    void push(int x){
+        node*newNode=new node;
+        newNode->data=x;
+
+        if(head==NULL){
+            head=tail=newNode;
+        } else{
+            tail->next=newNode;
+            newNode->prev=tail;
+            tail=newNode;
+            tail->next=head;
+            head->prev=tail;
+        }
+    }
+
+    void pop(){
+        if(head!=NULL){
+            node*temp=head;
+            head=head->next;
+            head->prev=tail;
+            tail->next=head;
+
+            delete temp;
+        }
+    }
+
+    void show(){
+        node*cur=head;
+        do{
+            cout<<cur->data<<" ";
+            cur=cur->next;
+        }while(cur!=head);
+        cout<<"\n\n\n\n"<<endl;
+    }
+
+    void showReverse(){
+        node*cur=tail;
+        do{
+            cout<<cur->data<<" ";
+            cur=cur->prev;
+        }while(cur!=tail);
+        cout<<"\n\n\n\n"<<endl;
+    }
 
 
-		if (head == NULL) {
-			head = tail = newnode;
-		}
-		else {
-			tail->next = newnode;
-			newnode->prev = tail;
-			tail = newnode;
-		}
-		tail->next = head;
-		head->prev = tail;
-
-	}
-
-	void show_circular_queue() {
-		if (head == NULL) return;
-
-		node* cur = head;
-
-		do {
-			cout << cur->data << " ";
-			cur = cur->next;
-
-		} while (cur != head);
-		cout << endl;
-	}
-
-	void show_reverse_circular_queue() {
-		if (tail == NULL)return;
-
-		node* cur = tail;
-		do {
-			cout << cur->data << " ";
-			cur = cur->prev;
-
-		} while (cur != tail);
-		cout << endl;
-	}
-	~circle_Q() {
-		if (head == NULL)return;
-
-		node* cur = head;
-		do {
-			node* nextNode = cur->next;
-			delete cur;
-			cur = nextNode;
-		} while (cur != head);
-
-		head = tail = NULL;
-	}
 };
 
+int main(){
+    circular_queue Q;
 
-int main() {
-	circle_Q Q;
+    Q.push(34);
+    Q.push(25);
+    Q.push(6);
+    Q.push(25);
+    Q.push(56);
+    Q.push(7);
+    Q.push(8);
+    Q.push(1);
 
-	Q.create_node(4);
-	Q.create_node(15);
-	Q.create_node(5);
-	Q.create_node(2);
-	Q.create_node(34);
-	Q.create_node(78);
-	Q.create_node(90);
-	Q.create_node(47);
-	Q.create_node(987);
+    Q.show();
+
+    Q.pop();
+    Q.pop();
+    Q.pop();
+    Q.pop();
+    Q.pop();
 
 
-	Q.show_circular_queue();
-	Q.show_reverse_circular_queue();
+    Q.show();
 
-	return 0;
+    return 0;
 }
