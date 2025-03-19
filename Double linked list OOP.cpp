@@ -1,72 +1,82 @@
-#include<iostream>
+#include <iostream>
 
 using namespace std;
 
-class double_linked_list {
-private:
-	typedef struct node {
-		int data;
-		struct node* next;
-		struct node* prev;
-	}node;
+class doubleLinkedList{
+    private:
+    class node{
+        public:
+        int data;
+        node*prev;
+        node*next;
+    
+        node() : prev(NULL), next(NULL) {}
+    
+    };
+    node*head;
+    node*tail;
 
-	node* head = NULL;
-	node* tail = NULL;
-public:
-	double_linked_list() : head(NULL),tail(NULL){}
+    public:
+    doubleLinkedList():head(NULL),tail(NULL){
+        cout<<"Linked list\n"<<endl;
+    }
 
-	void create_node(int x) {
-		node* newNode = new node;
-		newNode->data = x;
-		newNode->next = NULL;
-		newNode->prev = NULL;
+    void createNode(int x){
+        node*newNode=new node;
+        newNode->data=x;
+    
+        if(head==NULL){
+            head=tail=newNode;
+        }else{
+            tail->next=newNode;
+            newNode->prev=tail;
+            tail=newNode;
+        }
+    }
 
-		if (head == NULL) {
-			head = tail = newNode;
-		}
-		else {
-			tail->next = newNode;
-			newNode->prev = tail;
-			tail = newNode;
-		}
-	}
+    void showList(){
+        node*cur=head;
+    
+        while(cur!=NULL){
+            cout<<cur->data<<" ";
+            cur=cur->next;
+        }
 
-	void show_list() {
-		node* cur = head;
-		while (cur != NULL) {
-			cout << cur->data << " ";
-			cur = cur->next;
-		}
-		cout << endl;
-	}
+        cout<<"\n\n"<<endl;
+    }
 
-	void show_list_reverse() {
-		node* cur = tail;
-		while (cur != NULL) {
-			cout << cur->data << " ";
-			cur = cur->prev;
-		}
-		cout << endl;
-	}
+    void showListReverse(){
+        node*cur=tail;
+
+        while(cur!=NULL){
+            cout<<cur->data<<" ";
+            cur=cur->prev;
+        }
+
+        cout<<"\n\n"<<endl;
+    }
+    
 
 };
 
-int main()
-{
-	double_linked_list DLL;
+int main(){
 
-	DLL.create_node(34);
-	DLL.create_node(313);
-	DLL.create_node(4);
-	DLL.create_node(25);
-	DLL.create_node(73);
-	DLL.create_node(54);
-	DLL.create_node(90);
-	DLL.create_node(85);
+    doubleLinkedList DLL;
 
+    DLL.createNode(12);
+    DLL.createNode(6);
+    DLL.createNode(79);
+    DLL.createNode(65);
+    DLL.createNode(87);
+    DLL.createNode(4);
+    DLL.createNode(0);
 
-	DLL.show_list();
-	DLL.show_list_reverse();
+    DLL.showList();
+    DLL.showListReverse();
 
-	return 0;
+    cout<<"\n\n"<<endl;
+    return 0;
 }
+
+
+
